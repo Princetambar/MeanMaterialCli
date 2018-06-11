@@ -1,5 +1,4 @@
 mat-form-field,
 textarea {
-  width: 100;
-  display: block;
+  width: 100%;
 }
