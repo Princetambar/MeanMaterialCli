@@ -5,6 +5,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Start MongoDB server before starting backend node server.
+
 Run `npm run start-server` for backend dev server listening on port 3000. This will automatically reload if any changes in backend code
 
 ## Code scaffolding
