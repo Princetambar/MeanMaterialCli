@@ -11,15 +11,18 @@ import { Post } from './post.model';
 })
 export class PostService {
   private posts: Post[] = [];
-  private postsUpdated = new Subject<Post[]>();
+  private postsUpdated = new Subject<{ posts: Post[]; totalPosts: number }>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getPosts() {
+  getPosts(postsPerPage: number, currentPage: number) {
     // return this.posts.slice();
     // return [...this.posts];
+    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
     this.http
-      .get<{ message: string; posts: any }>('http://localhost:3000/api/posts')
+      .get<{ message: string; posts: any; totalPosts: number }>(
+        'http://localhost:3000/api/posts' + queryParams
+      )
       .pipe(
         map(res => {
           const correctedPosts = res.posts.map(post => {
@@ -32,13 +35,17 @@ export class PostService {
           });
           return {
             message: res.message,
-            posts: correctedPosts
+            posts: correctedPosts,
+            totalPosts: res.totalPosts
           };
         })
       )
       .subscribe(transformedResponse => {
         this.posts = transformedResponse.posts;
-        this.postsUpdated.next([...this.posts]);
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          totalPosts: transformedResponse.totalPosts
+        });
       });
   }
 
@@ -81,9 +88,6 @@ export class PostService {
         postData
       )
       .subscribe(res => {
-        const post: Post = res.post;
-        this.posts.push(post);
-        this.postsUpdated.next([...this.posts]);
         this.router.navigate(['/']);
       });
   }
@@ -112,11 +116,6 @@ export class PostService {
   }
 
   deletePost(postId: string) {
-    this.http
-      .delete('http://localhost:3000/api/posts/' + postId)
-      .subscribe(() => {
-        this.posts = this.posts.filter(post => post.id !== postId);
-        this.postsUpdated.next([...this.posts]);
-      });
+    return this.http.delete('http://localhost:3000/api/posts/' + postId);
   }
 }
