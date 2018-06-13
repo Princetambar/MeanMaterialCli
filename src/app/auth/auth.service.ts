@@ -41,11 +41,14 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
-    this.http
-      .post('http://localhost:3000/api/user/signup', authData)
-      .subscribe(user => {
+    this.http.post('http://localhost:3000/api/user/signup', authData).subscribe(
+      user => {
         this.router.navigate(['/login']);
-      });
+      },
+      error => {
+        this.authStatusListener.next(false);
+      }
+    );
   }
 
   login(email: string, password: string) {
@@ -57,24 +60,29 @@ export class AuthService {
         expiresIn: number;
         userId: string;
       }>('http://localhost:3000/api/user/login', authData)
-      .subscribe(res => {
-        this.token = res.token;
-        if (this.token) {
-          const expiresInSeconds = res.expiresIn;
-          this.setAuthTimer(expiresInSeconds);
-          this.isAuthenticated = true;
-          this.userId = res.userId;
-          this.authStatusListener.next(true);
-          const now = new Date();
-          console.log(now);
-          const expirationDate = new Date(
-            now.getTime() + expiresInSeconds * 1000
-          );
-          console.log(expirationDate);
-          this.saveAuthData(this.token, expirationDate, this.userId);
-          this.router.navigate(['/']);
+      .subscribe(
+        res => {
+          this.token = res.token;
+          if (this.token) {
+            const expiresInSeconds = res.expiresIn;
+            this.setAuthTimer(expiresInSeconds);
+            this.isAuthenticated = true;
+            this.userId = res.userId;
+            this.authStatusListener.next(true);
+            const now = new Date();
+            console.log(now);
+            const expirationDate = new Date(
+              now.getTime() + expiresInSeconds * 1000
+            );
+            console.log(expirationDate);
+            this.saveAuthData(this.token, expirationDate, this.userId);
+            this.router.navigate(['/']);
+          }
+        },
+        error => {
+          this.authStatusListener.next(false);
         }
-      });
+      );
   }
 
   logout() {

@@ -61,12 +61,20 @@ export class PostListComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.postService.deletePost(id).subscribe(() => {
-      if (this.totalPosts - 1 === this.postsPerPage * (this.currentPage - 1)) {
-        this.currentPage = 1;
+    this.postService.deletePost(id).subscribe(
+      () => {
+        if (
+          this.totalPosts - 1 ===
+          this.postsPerPage * (this.currentPage - 1)
+        ) {
+          this.currentPage = 1;
+        }
+        this.postService.getPosts(this.postsPerPage, this.currentPage);
+      },
+      () => {
+        this.isLoading = false;
       }
-      this.postService.getPosts(this.postsPerPage, this.currentPage);
-    });
+    );
   }
 
   onChangedPage(pageData: PageEvent) {
