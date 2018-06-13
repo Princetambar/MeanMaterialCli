@@ -30,7 +30,8 @@ export class PostService {
               id: post._id,
               title: post.title,
               content: post.content,
-              imagePath: post.imagePath
+              imagePath: post.imagePath,
+              creator: post.creator
             };
           });
           return {
@@ -62,6 +63,7 @@ export class PostService {
       title: string;
       content: string;
       imagePath: string;
+      creator: string;
     }>('http://localhost:3000/api/posts/' + postId);
   }
 
@@ -105,7 +107,8 @@ export class PostService {
         id: id,
         title: title,
         content: content,
-        imagePath: image
+        imagePath: image,
+        creator: null
       };
     }
     this.http
