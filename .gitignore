@@ -6,6 +6,8 @@
 /out-tsc
 
 /backend/images
+/backend/angular
+/backend/node_modules
 
 # dependencies
 /node_modules

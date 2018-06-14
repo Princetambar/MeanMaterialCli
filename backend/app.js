@@ -12,6 +12,13 @@ const app = express();
 
 mongoose
   .connect(process.env.MONGO_URL)
+  // .connect(
+  //   'mongodb+srv://' +
+  //     process.env.MONGO_USER +
+  //     ':' +
+  //     process.env.MONGO_PWD +
+  //     '@mmc-txlmr.mongodb.net/mean-material-cli'
+  // )
   .then(() => {
     console.log('Connection to MongoDB successful');
   })

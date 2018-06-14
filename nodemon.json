@@ -1,6 +1,8 @@
 {
   "env": {
     "MONGO_URL": "mongodb://localhost:27017/mean-cli",
-    "JWT_KEY": "secret-this_should_be_longer"
+    "JWT_KEY": "secret-this_should_be_longer",
+    "MONGO_USER": "public",
+    "MONGO_PWD": "Leu6Gwk2IKJXgmEG"
   }
 }
