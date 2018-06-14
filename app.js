@@ -13,11 +13,11 @@ const app = express();
 mongoose
   // .connect(process.env.MONGO_URL)
   .connect(
-    'mongodb+srv://' +
+    'mongodb://' +
       process.env.MONGO_USER +
       ':' +
       process.env.MONGO_PWD +
-      '@mmc-txlmr.mongodb.net/mean-material-cli'
+      '@ds119508.mlab.com:19508/mean-material-cli'
   )
   .then(() => {
     console.log('Connection to MongoDB successful');
