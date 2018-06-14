@@ -1,6 +1,0 @@
-{
-  "env": {
-    "MONGO_URL": "mongodb://localhost:27017/mean-cli",
-    "JWT_KEY": "c2VjcmV0LXRoaXNfc2hvdWxkX2JlX2xvbmdlcjptZWFuLW1hdGVyaWFsLWNsaQ=="
-  }
-}
