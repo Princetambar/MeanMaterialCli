@@ -5,6 +5,9 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Post } from './post.model';
+import { environment } from '../../environments/environment';
+
+const postsUrl = environment.apiUrl + 'posts/';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,7 @@ export class PostService {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
     this.http
       .get<{ message: string; posts: any; totalPosts: number }>(
-        'http://localhost:3000/api/posts' + queryParams
+        postsUrl + queryParams
       )
       .pipe(
         map(res => {
@@ -64,7 +67,7 @@ export class PostService {
       content: string;
       imagePath: string;
       creator: string;
-    }>('http://localhost:3000/api/posts/' + postId);
+    }>(postsUrl + postId);
   }
 
   addPost(title: string, content: string, image: File) {
@@ -75,7 +78,7 @@ export class PostService {
     postData.append('image', image, title);
     // this.http
     //   .post<{ message: string; postId: string }>(
-    //     'http://localhost:3000/api/posts',
+    //     postsUrl,
     //     post
     //   )
     //   .subscribe(res => {
@@ -85,10 +88,7 @@ export class PostService {
     //     this.router.navigate(['/']);
     //   });
     this.http
-      .post<{ message: string; post: Post }>(
-        'http://localhost:3000/api/posts',
-        postData
-      )
+      .post<{ message: string; post: Post }>(postsUrl, postData)
       .subscribe(res => {
         this.router.navigate(['/']);
       });
@@ -111,14 +111,12 @@ export class PostService {
         creator: null
       };
     }
-    this.http
-      .put('http://localhost:3000/api/posts/' + id, postData)
-      .subscribe(res => {
-        this.router.navigate(['/']);
-      });
+    this.http.put(postsUrl + id, postData).subscribe(res => {
+      this.router.navigate(['/']);
+    });
   }
 
   deletePost(postId: string) {
-    return this.http.delete('http://localhost:3000/api/posts/' + postId);
+    return this.http.delete(postsUrl + postId);
   }
 }

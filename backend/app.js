@@ -11,7 +11,7 @@ const Post = require('./models/post');
 const app = express();
 
 mongoose
-  .connect('mongodb://localhost:27017/mean-cli')
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log('Connection to MongoDB successful');
   })
