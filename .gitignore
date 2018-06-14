@@ -6,8 +6,10 @@
 /out-tsc
 
 /backend/images
-/backend/angular
 /backend/node_modules
+/src
+/e2e
+*.json
 
 # dependencies
 /node_modules
