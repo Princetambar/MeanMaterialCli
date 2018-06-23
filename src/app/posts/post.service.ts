@@ -75,7 +75,7 @@ export class PostService {
     const postData = new FormData();
     postData.append('title', title);
     postData.append('content', content);
-    postData.append('image', image, title);
+    postData.append('image', image, image.name);
     // this.http
     //   .post<{ message: string; postId: string }>(
     //     postsUrl,
